@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaludPlus · Registro de Paciente</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --verde: #1a6b4a; --verde-cl: #e6f4ee; --verde-md: #2d9e6f;
+            --blanco: #f8faf9; --borde: #d1e3da; --sombra: 0 4px 24px rgba(26,107,74,.12);
+        }
+        body { font-family: 'DM Sans', sans-serif; background: var(--blanco); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 60% 50% at 10% 20%, rgba(45,158,111,.13) 0%, transparent 60%), radial-gradient(ellipse 50% 60% at 90% 80%, rgba(26,107,74,.10) 0%, transparent 60%); pointer-events: none; }
+        .card { background: #fff; border-radius: 20px; box-shadow: var(--sombra); width: 100%; max-width: 540px; overflow: hidden; animation: slideUp .5s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        .card-header { background: var(--verde); padding: 2rem 2.4rem 1.6rem; position: relative; overflow: hidden; }
+        .card-header::after { content: '+'; font-family: 'DM Serif Display', serif; font-size: 9rem; color: rgba(255,255,255,.07); position: absolute; right: 1rem; top: -1rem; line-height: 1; pointer-events: none; }
+        .badge { display: inline-block; background: rgba(255,255,255,.18); color: #fff; font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding: .28rem .75rem; border-radius: 50px; margin-bottom: .9rem; }
+        .card-header h1 { font-family: 'DM Serif Display', serif; font-size: 1.95rem; color: #fff; line-height: 1.2; }
+        .card-header p { color: rgba(255,255,255,.72); font-size: .88rem; margin-top: .4rem; }
+        .card-body { padding: 2rem 2.4rem 2.4rem; }
+        .field { margin-bottom: 1.2rem; }
+        label { display: block; font-size: .8rem; font-weight: 600; color: var(--verde); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .4rem; }
+        input, select { width: 100%; padding: .72rem 1rem; border: 1.5px solid var(--borde); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: .95rem; color: #1a2b23; background: var(--blanco); transition: border-color .2s, box-shadow .2s; outline: none; appearance: none; }
+        input:focus, select:focus { border-color: var(--verde-md); box-shadow: 0 0 0 3px rgba(45,158,111,.15); }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .btn { width: 100%; padding: .85rem; background: var(--verde); color: #fff; border: none; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: .5rem; transition: background .2s, transform .15s; }
+        .btn:hover { background: var(--verde-md); transform: translateY(-1px); }
+        .success { background: var(--verde-cl); border: 1.5px solid #a7d4bc; border-radius: 12px; padding: 1.1rem 1.3rem; margin-bottom: 1.4rem; animation: fadeIn .4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: scale(1); } }
+        .success p { font-size: .88rem; color: var(--verde); }
+        .success strong { font-size: 1rem; color: #0f4530; display: block; margin-bottom: .3rem; }
+        .divider { border: none; border-top: 1.5px solid var(--borde); margin: 1.5rem 0; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="card-header">
+        <span class="badge">SaludPlus</span>
+        <h1>Registro de Paciente</h1>
+        <p>Complete el formulario para ingresar un nuevo paciente al sistema.</p>
+    </div>
+    <div class="card-body">
+        <div class="success" th:if="${pacienteRegistrado}">
+            <strong>✓ Paciente registrado exitosamente</strong>
+            <p th:text="'ID asignado: #' + ${pacienteRegistrado.id} + ' · ' + ${pacienteRegistrado.nombre} + ' ' + ${pacienteRegistrado.apellido}"></p>
+        </div>
+        <form th:action="@{/pacientes/registro}" th:object="${paciente}" method="post">
+            <div class="row">
+                <div class="field"><label>Nombre</label><input type="text" th:field="*{nombre}" placeholder="Juan" required></div>
+                <div class="field"><label>Apellido</label><input type="text" th:field="*{apellido}" placeholder="Pérez" required></div>
+            </div>
+            <div class="field"><label>RUT</label><input type="text" th:field="*{rut}" placeholder="12.345.678-9" required></div>
+            <div class="field"><label>Correo electrónico</label><input type="email" th:field="*{correo}" placeholder="juan@correo.cl" required></div>
+            <div class="field">
+                <label>Previsión</label>
+                <select th:field="*{prevision}" required>
+                    <option value="" disabled selected>Seleccione previsión</option>
+                    <option value="Fonasa">Fonasa</option>
+                    <option value="Isapre">Isapre</option>
+                    <option value="Particular">Particular</option>
+                </select>
+            </div>
+            <hr class="divider">
+            <button type="submit" class="btn">Registrar Paciente</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
