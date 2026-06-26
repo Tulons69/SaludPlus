@@ -29,12 +29,12 @@
 	</dependencyManagement>
 
 	<dependencies>
-		<!-- Spring Cloud Gateway -->
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-gateway</artifactId>
 		</dependency>
-		<!-- Actuator para monitoreo -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
