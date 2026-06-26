@@ -14,7 +14,6 @@ public class BackupScheduler {
         this.backupService = backupService;
     }
 
-    // Se ejecuta a las 12:00 AM todos los dias
     @Scheduled(cron = "0 0 0 * * ?")
     public void scheduleBackup() {
         System.out.println("[BackupScheduler] Ejecutando backup automatico programado...");
