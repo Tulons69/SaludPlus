@@ -25,7 +25,6 @@ spring:
 server:
   port: 8081
 
-# Backup configuracion
 backup:
   mysql:
     dump-path: C:/laragon/bin/mysql/mysql-8.0.30-winx64/bin/mysqldump
@@ -34,12 +33,10 @@ backup:
     db-pass:
     save-path: C:/backups/backup_doctores.sql
 
-# URL del microservicio Paciente (para Feign)
 paciente:
   service:
     url: http://localhost:8080
 
-# Swagger / OpenAPI
 springdoc:
   api-docs:
     enabled: true
