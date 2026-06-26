@@ -1,6 +1,3 @@
--- V1__create_pacientes_table.sql
--- Migracion inicial: creacion de la tabla pacientes
-
 CREATE TABLE IF NOT EXISTS pacientes (
     id       INT AUTO_INCREMENT PRIMARY KEY,
     rut      VARCHAR(12)  NOT NULL,
